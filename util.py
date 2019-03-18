@@ -34,26 +34,26 @@ def divReg_loss(model, threshold=0.6):
         if len(dim) == 4 and dim[1] != 3:
             weight_matrix = ly.view(dim[0], -1)
             sim_matrix = cos_sim_matrix(weight_matrix) # similatity
-            mask = sim_matrix - torch.eye(sim_matrix.size(0)).cuda() # 0s in diagonal
+            mask = sim_matrix - torch.eye(sim_matrix.size(0)).to(sim_matrix.device) # 0s in diagonal
             mask = mask * (threshold < mask.abs() ).float()
             loss += torch.sum(mask ** 2)
     return loss
 
 
-def adjust_learning_rate(optimizer, epoch):
-    """Sets the learning rate to the initial LR decayed by 10 every 30 epochs"""
-    if epoch != 0 and epoch % 20 == 0:
-        for param_group in optimizer.param_groups:
-            param_group['lr'] *= 0.5
-
-def div_scheduler(threshold, epoch):
-    if epoch % 10 == 0 and epoch !=0:
-        threshold *= 1.1
-    return min(threshold, 0.5)
-
-def switcher_scheduler(threshold, epoch):
-    if epoch % 10 == 0 and epoch !=0:
-        threshold *= 0.8
-    return threshold
+# def adjust_learning_rate(optimizer, epoch):
+#     """Sets the learning rate to the initial LR decayed by 10 every 30 epochs"""
+#     if epoch != 0 and epoch % 20 == 0:
+#         for param_group in optimizer.param_groups:
+#             param_group['lr'] *= 0.5
+#
+# def div_scheduler(threshold, epoch):
+#     if epoch % 10 == 0 and epoch !=0:
+#         threshold *= 1.1
+#     return min(threshold, 0.5)
+#
+# def switcher_scheduler(threshold, epoch):
+#     if epoch % 10 == 0 and epoch !=0:
+#         threshold *= 0.8
+#     return threshold
 
 
