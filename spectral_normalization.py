@@ -1,10 +1,5 @@
 import torch
-from torch.optim.optimizer import Optimizer, required
-
-from torch.autograd import Variable
-import torch.nn.functional as F
 from torch import nn
-from torch import Tensor
 from torch.nn import Parameter
 
 def l2normalize(v, eps=1e-12):
@@ -30,7 +25,6 @@ class SpectralNorm(nn.Module):
             v.data = l2normalize(torch.mv(torch.t(w.view(height,-1).data), u.data))
             u.data = l2normalize(torch.mv(w.view(height,-1).data, v.data))
 
-        # sigma = torch.dot(u.data, torch.mv(w.view(height,-1).data, v.data))
         sigma = u.dot(w.view(height, -1).mv(v))
         setattr(self.module, self.name, w / sigma.expand_as(w))
 
