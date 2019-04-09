@@ -6,8 +6,8 @@ import torch.optim as optim
 from torch.optim.lr_scheduler import ExponentialLR
 from torchvision import datasets, transforms
 from torch.autograd import Variable
-import model_resnet
-import model
+import models_resnet
+import models
 
 import numpy as np
 import matplotlib
@@ -50,11 +50,11 @@ if __name__ == "__main__":
 
     # discriminator = torch.nn.DataParallel(Discriminator()).cuda() # TODO: try out multi-gpu training
     if args.model == 'resnet':
-        discriminator = model_resnet.Discriminator().cuda()
-        generator = model_resnet.Generator(Z_dim).cuda()
+        discriminator = models_resnet.Discriminator().cuda()
+        generator = models_resnet.Generator(Z_dim).cuda()
     else:
-        discriminator = model.Discriminator().cuda()
-        generator = model.Generator(Z_dim).cuda()
+        discriminator = models.Discriminator().cuda()
+        generator = models.Generator(Z_dim).cuda()
 
     # because the spectral normalization module creates parameters that don't require gradients (u and v), we don't want to
     # optimize these using sgd. We only let the optimizer operate on parameters that _do_ require gradients

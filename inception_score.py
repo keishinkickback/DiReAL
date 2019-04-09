@@ -11,7 +11,7 @@ import torchvision.transforms as transforms
 import numpy as np
 from scipy.stats import entropy
 
-from model import Generator
+from models import Generator
 
 def inception_score(imgs, cuda=True, batch_size=32, resize=True, splits=1):
     """Computes the inception score of the generated images imgs
