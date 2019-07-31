@@ -171,8 +171,8 @@ def get_args():
 
 if __name__ == '__main__':
     opt = get_args()
-    opt.cuda = True
-    opt.netG = '/home/keishin/sandbox/pytorch-spectral-normalization-gan/checkpoints_dcgan_divreg/gen_100'
+    # opt.cuda = True
+    # opt.netG = '/home/keishin/sandbox/pytorch-spectral-normalization-gan/checkpoints_dcgan_divreg/gen_100'
     if opt.test:
         test(opt)
     else:

@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import os
 
-from util import divReg_loss
+from util import direal_loss
 
 
 
@@ -53,7 +53,7 @@ if __name__ == "__main__":
         discriminator = models_resnet.Discriminator().cuda()
         generator = models_resnet.Generator(Z_dim).cuda()
     else:
-        discriminator = models.Discriminator().cuda()
+        discriminator = models.Discriminator_SN().cuda()
         generator = models.Generator(Z_dim).cuda()
 
     # because the spectral normalization module creates parameters that don't require gradients (u and v), we don't want to
@@ -93,7 +93,7 @@ if __name__ == "__main__":
                     disc_loss = nn.BCEWithLogitsLoss()(discriminator(data), Variable(torch.ones(args.batch_size, 1).cuda())) + \
                         nn.BCEWithLogitsLoss()(discriminator(generator(z)), Variable(torch.zeros(args.batch_size, 1).cuda()))
                 if args.divreg:
-                    disc_loss += divReg_loss(discriminator, 0.6).cuda()
+                    disc_loss += direal_loss(discriminator, 0.6).cuda()
                 disc_loss.backward()
                 optim_disc.step()
 
